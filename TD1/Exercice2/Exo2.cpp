@@ -15,7 +15,7 @@ using namespace std;
 double limite(double precision) //fonction qui calcule la limite de la suite
 {
 
-	double uPresent = 1.0;//U0=1
+	double uPresent = 1.0;//le terme initial U0 de la suite=1
 	
 	double uProchain = pow((2 + uPresent), 0.5);//Calcul du prochain terme de la suite
 	while ((uProchain - uPresent) > 0.00001)/*Calcul du prochain terme tant que
