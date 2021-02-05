@@ -1,7 +1,7 @@
 /**
 * Programme qui charge une grille de Tic-Tac-Toe depuis un fichier texte et renvoie le vainqueur de la partie
 * \file   Exo5.cpp
-* \author Maya Teylouni et Julien Métais
+* \author Maya Kurdi-Teylouni et Julien Métais
 * \date   26 janvier 2021
 * Créé le 26 janvier 2021
 */

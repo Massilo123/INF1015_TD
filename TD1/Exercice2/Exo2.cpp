@@ -1,3 +1,11 @@
+/**
+* Programme qui calcule et affiche la limite d'une suite
+* \file   Exo2.cpp
+* \author Maya Kurdi-Teylouni et Julien Métais
+* \date   5 février 2021
+* Créé le 26 janvier 2021
+*/
+
 
 #include <iostream>
 #include <iomanip>  

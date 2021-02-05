@@ -1,7 +1,7 @@
 /**
 * Programme qui insère un entier saisi au clavier dans un tableau trié
 * \file   Exo3.cpp
-* \author Maya Teylouni et Julien Métais
+* \author Maya Kurdi-Teylouni et Julien Métais
 * \date   27 janvier 2021
 * Créé le 27 janvier 2021
 */

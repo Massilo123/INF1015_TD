@@ -1,7 +1,7 @@
 /**
 * Programme qui calcule des produits d'entiers par méthode russe
 * \file   Exo4.cpp
-* \author Maya Teylouni et Julien Métais
+* \author Maya Kurdi-Teylouni et Julien Métais
 * \date   26 janvier 2021
 * Créé le 26 janvier 2021
 */
