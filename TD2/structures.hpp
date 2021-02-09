@@ -5,6 +5,29 @@
 
 struct Film; struct Acteur; // Permet d'utiliser les types alors qu'ils seront défini après.
 
+class ListeDeFilms
+{
+private:
+	int capacite, nElements;
+	Film** elements;
+
+public:
+	ListeDeFilms();
+
+	void lire(const std::string& nomFichier);
+	void detruire();
+
+	void afficher() const;
+
+	void ajouterFilm(Film* film);
+	void retirerFilm(Film* film);
+
+	Acteur* rechercherActeur(const std::string& nom) const;
+
+	Film* getFilm(int id) const;
+};
+
+
 struct ListeFilms {
 	int capacite, nElements;
 	Film** elements; // Pointeur vers un tableau de Film*, chaque Film* pointant vers un Film.
