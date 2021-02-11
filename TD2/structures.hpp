@@ -1,36 +1,42 @@
+/**
+* Fichier contenant la déclaration des structures pour manipuler une collection de films.
+* \file   td2.cpp
+* \author Maya Kurdi-Teylouni et Julien Métais
+* \date   10 février 2021
+* Créé le 2 février 2021
+*/
+
+
 #pragma once
-// Structures mémoires pour une collection de films.
 
 #include <string>
 
-struct Film; struct Acteur; // Permet d'utiliser les types alors qu'ils seront défini après.
 
-class ListeDeFilms
+struct Film; struct Acteur; // Permet d'utiliser les types alors qu'ils seront définis après.
+
+class ListeFilms
 {
 private:
-	int capacite, nElements;
-	Film** elements;
+	int capacite; // Nombre de films pouvant être contenus dans la structure avec la mémoire allouée pour le tableau dynamique.
+	int nElements; // Nombre de films contenus dans la structure.
+	Film** elements; // Pointeur vers un tableau de Film*, chaque Film* pointant vers un Acteur.
 
 public:
-	ListeDeFilms();
+	ListeFilms(); // Constructeur par défaut : initialise une liste vide avec une capacité de 1.
 
-	void lire(const std::string& nomFichier);
-	void detruire();
+	void lire(const std::string& nomFichier); // Remplit la liste à partir du contenu d'un fichier.
+	void detruire(); // Libère la mémoire allouée pour la liste de films.
 
-	void afficher() const;
+	void afficher() const; // Affiche l'ensemble des films de la liste.
 
-	void ajouterFilm(Film* film);
-	void retirerFilm(Film* film);
+	void ajouterFilm(Film* film); // Ajoute un film à la liste, alloue de la mémoire supplémentaire si nécessaire.
+	void retirerFilm(Film* film); // Retire un film de la liste, ne conserve pas l'ordre au sein de la liste.
 
-	Acteur* rechercherActeur(const std::string& nom) const;
+	Acteur* rechercherActeur(const std::string& nom) const; // Renvoie un pointeur vers un acteur ayant le nom indiqué, ou nullptr si cet acteur est introuvable dans la liste.
 
-	Film* getFilm(int id) const;
-};
-
-
-struct ListeFilms {
-	int capacite, nElements;
-	Film** elements; // Pointeur vers un tableau de Film*, chaque Film* pointant vers un Film.
+	// Accesseurs
+	int obtenirNElements() const; // Renvoie le nombre de films contenus dans la liste.
+	Film* obtenirFilm(int id) const; // Renvoie un pointeur vers le film de rang "id" dans la liste.
 };
 
 struct ListeActeurs {
