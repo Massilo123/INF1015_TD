@@ -61,8 +61,13 @@ string lireString(istream& fichier)
 void ListeFilms::ajouterFilm(Film* film)
 {
 	// Si la capacité est invalide, on ré-initialise les attributs pour une capacité de 1.
-
-	// Remarque : Le cas où la capacité est nulle n'était pas exécuté, et nous n'avons pas trouvé de façon simple de le simuler dans le cadre de notre programme, aussi nous avons choisi de l'effacer pour avoir une couverture de code de 100%. Il serait toutefois utile dans un cadre plus général, où l'utilisateur pourrait manipuler directement la capacite des listes.
+	if (capacite <= 0)
+	{
+		capacite = 1;
+		nElements = 0;
+		delete[] elements;
+		elements = new Film * [1];
+	}
 
 	// Si la capacité est insuffisante pour ajouter l'élément :
 	if (capacite <= nElements)
@@ -203,10 +208,10 @@ Film* lireFilm(istream& fichier, ListeFilms& listeFilms)
 
 ListeFilms::ListeFilms()
 {
-	// Par défaut, on initialise une liste vide avec une capacité de 1.
-	capacite = 1;
+	// Par défaut, on initialise une liste vide, avec une capacité de 0.
+	capacite = 0;
 	nElements = 0;
-	elements = new Film * [1];
+	elements = new Film * [0];
 }
 
 void ListeFilms::lire(const string& nomFichier)
