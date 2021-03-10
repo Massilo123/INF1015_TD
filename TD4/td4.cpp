@@ -183,32 +183,11 @@ ostream& operator<< (ostream& os, const Acteur& acteur)
 	return os << "  " << acteur.nom << ", " << acteur.anneeNaissance << " " << acteur.sexe << endl;
 }
 
-// Fonction pour afficher un film avec tous ces acteurs (en utilisant la fonction afficherActeur ci-dessus).
-//[
-ostream& operator<< (ostream& os, const Film& film)
-{
-	os << "Titre: " << film.lireTitre() << endl;
-	os << "  Réalisateur: " << film.lireRealisateur() << "  Année :" << film.lireAnneSortie() << endl;
-	os << "  Recette: " << film.lireRecette() << "M$" << endl;
 
-	os << "Acteurs:" << endl;
-	for (const shared_ptr<Acteur>& acteur : film.obtenirActeurs().enSpan())
-		os << *acteur;
-	return os;
-}
-//]
 
-// Pas demandé dans l'énoncé de tout mettre les affichages avec surcharge, mais pourquoi pas.
-ostream& operator<< (ostream& os, const ListeFilms& listeFilms)
-{
-	static const string ligneDeSeparation = //[
-		"\033[32m────────────────────────────────────────\033[0m\n";
-	os << ligneDeSeparation;
-	for (const Film* film : listeFilms.enSpan()) {
-		os << *film << ligneDeSeparation;
-	}
-	return os;
-}
+
+/*Fonctions ajoutées pour le TD4*/
+
 
 // Permet de transférer des films depuis une ListeFilms vers un vector<shared_ptr<Item>>.
 void transfererListeFilms(vector<shared_ptr<Item>>& listeItems, ListeFilms& listeFilms)
@@ -240,19 +219,51 @@ void lireLivres(vector<shared_ptr<Item>>& listeItems, const string& nomFichier)
 	}
 }
 
+// Permet d'afficher uniquement les informations propres aux Livres (utile pour afficher des FilmLivres).
+ostream& Livre::afficherAux(ostream& o) const
+{
+	return o << "\nAuteur :\t\t" << auteur_ << "\nCopies vendues :\t" << nCopiesVendues_ << "M\nNombre de pages :\t" << nPages_ << endl;
+}
+
+// Affichage d'un Livre.
 ostream& Livre::afficher(ostream& o) const
 {
-	return Item::afficher(o) << "\nAuteur :\t\t" << auteur_ << "\nCopies vendues :\t" << nCopiesVendues_ << "M\nNombre de pages :\t" << nPages_;
+	return Livre::afficherAux(Item::afficher(o));
 }
 
+// Affichage d'un Film.
 ostream& Film::afficher(ostream& o) const
 {
-	return Item::afficher(o) << "\nRealisateur :\t\t" << realisateur_ << "\nRecette :\t\t" << recette_ << "M$";
+	ostream& result = Item::afficher(o) << "\nRéalisateur :\t\t" << realisateur_ << "\nRecette :\t\t" << recette_ << "M$";
+	result << "\nActeurs:" << endl;
+	for (const shared_ptr<Acteur>& acteur : acteurs_.enSpan())
+		result << *acteur;
+	return result;
 }
 
+// Affichage d'un FilmLivre.
+ostream& FilmLivre::afficher(ostream& o) const
+{
+	return Livre::afficherAux(Film::afficher(o));
+}
+
+// Surcharge de l'opérateur << pour afficher n'importe quel Item.
 ostream& operator<<(ostream& o, const Item& item)
 {
 	return item.afficher(o);
+}
+
+// Surcharge de l'opérateur << pour afficher directement un vecteur d'Items.
+ostream& operator<< (ostream& os, const vector<shared_ptr<Item>>& listeItems)
+{
+	static const string ligneDeSeparation = //[
+		"\033[32m────────────────────────────────────────\033[0m\n";
+	os << ligneDeSeparation;
+	for (int i : range(listeItems.size()))
+	{
+		os << *listeItems[i].get() << ligneDeSeparation;
+	}
+	return os;
 }
 
 int main()
@@ -264,17 +275,22 @@ int main()
 
 	static const string ligneDeSeparation = "\n\033[35m════════════════════════════════════════\033[0m\n";
 
+	// On utilise la ListeFilms uniquement pour lire les données depuis le fichier .bin.
 	ListeFilms listeFilms = creerListe("films.bin");
 
+	// On crée une bibliothèque vers laquelle on transfère les films, puis on détruit la liste de films.
 	vector<shared_ptr<Item>> listeItems(0);
 	transfererListeFilms(listeItems, listeFilms);
+	listeFilms.detruire(true);
+
+	// On lit les données sur les livres et on les ajoute à la bibliothèque.
 	lireLivres(listeItems, "livres.txt");
 
-	for (int i : range(listeItems.size()))
-	{
-		cout << *listeItems[i].get() << endl;
-	}
+	// On construit un FilmLivre à partir du Film et du Livre "Le Hobbit", puis on l'ajoute à la bibliothèque.
+	const Film& hobbitFilm = dynamic_cast<Film&>(*listeItems[4].get());
+	const Livre& hobbitLivre = dynamic_cast<Livre&>(*listeItems[9].get());
+	listeItems.push_back(make_shared<FilmLivre>(FilmLivre(hobbitFilm, hobbitLivre)));
 
-	// Détruire tout avant de terminer le programme.
-	listeFilms.detruire(true);
+	// On affiche la bibliothèque.
+	cout << listeItems << endl;
 }

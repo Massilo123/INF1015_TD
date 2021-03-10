@@ -91,7 +91,7 @@ public:
 class Item : public Affichable
 {
 public:
-	Item() : titre_(""), anneeSortie_(0){ }
+	Item() : titre_(""), anneeSortie_(0){}
 	Item(const string& titre, int anneeSortie) : titre_(titre), anneeSortie_(anneeSortie) {}
 
 	// Accesseurs en lecture :
@@ -103,14 +103,14 @@ public:
 	void ecrireAnneeSortie(int anneeSortie) { anneeSortie_ = anneeSortie; }
 
 	// Affichage :
-	ostream& afficher(ostream& o) const { return o << "\nTitre :\t\t\t" << titre_ << "\nDate :\t\t\t" << anneeSortie_; }
+	ostream& afficher(ostream& o) const override { return o << "\nTitre :\t\t\t" << titre_ << "\nDate :\t\t\t" << anneeSortie_; }
 
-private:
+protected:
 	string titre_;
 	int anneeSortie_;
 };
 
-class Livre : public Item
+class Livre : public virtual Item
 {
 public:
 	Livre() : auteur_(""), nCopiesVendues_(0), nPages_(0) {}
@@ -121,16 +121,22 @@ public:
 		nPages_ = nPages;
 	}
 
+	// Accesseurs en lecture :
+	const string& lireAuteur() const { return auteur_; }
+	int lireNCopiesVendues() const { return nCopiesVendues_; }
+	int lireNPages() const { return nPages_; }
+
 	// Affichage :
+	ostream& afficherAux(ostream& o) const; // Permet d'afficher uniquement les informations propres aux Livres (utile pour afficher des FilmLivres).
 	ostream& afficher(ostream& o) const;
 
-private:
+protected:
 	string auteur_; // Nom de l'auteur (on suppose qu'il n'y a qu'un auteur).
 	int nCopiesVendues_; // Nombre d'exemplaires vendus, en millions.
 	int nPages_; // Nombre de pages.
 };
 
-class Film : public Item
+class Film : public virtual Item
 {
 public:
 	Film() : realisateur_(""), recette_(0), acteurs_(ListeActeurs()){}
@@ -148,7 +154,7 @@ public:
 	// Affichage :
 	ostream& afficher(ostream& o) const;
 
-private:
+protected:
 	string realisateur_; // Nom du réalisateur (on suppose qu'il n'y a qu'un réalisateur).
 	int recette_; // Recette globale du film en millions de dollars.
 	ListeActeurs acteurs_;
@@ -157,4 +163,26 @@ private:
 struct Acteur
 {
 	string nom; int anneeNaissance=0; char sexe='\0';
+};
+
+class FilmLivre : public Film, public Livre
+{
+public:
+	FilmLivre(const Film& film, const Livre& livre) 
+	{
+		// On utilise le titre et l'année du film.
+		titre_ = film.lireTitre();
+		anneeSortie_ = film.lireAnneSortie();
+
+		realisateur_ = film.lireRealisateur();
+		recette_ = film.lireRecette();
+		acteurs_ = ListeActeurs(film.obtenirActeurs());
+
+		auteur_ = livre.lireAuteur();
+		nCopiesVendues_ = livre.lireNCopiesVendues();
+		nPages_ = livre.lireNPages();
+	}
+
+	// Affichage :
+	ostream& afficher(ostream& o) const;
 };
