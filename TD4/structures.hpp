@@ -2,7 +2,7 @@
 * Fichier contenant la déclaration des structures pour manipuler une collection de films. Basé sur le solutionnaire du TD3.
 * \file   structures.hpp
 * \author Maya Kurdi-Teylouni et Julien Métais
-* \date   9 mars 2021
+* \date   16 mars 2021
 * Créé le 9 mars 2021
 */
 #pragma once
@@ -110,7 +110,7 @@ protected:
 	int anneeSortie_;
 };
 
-class Livre : public virtual Item
+class Livre : virtual public Item
 {
 public:
 	Livre() : auteur_(""), nCopiesVendues_(0), nPages_(0) {}
@@ -136,7 +136,7 @@ protected:
 	int nPages_; // Nombre de pages.
 };
 
-class Film : public virtual Item
+class Film : virtual public Item
 {
 public:
 	Film() : realisateur_(""), recette_(0), acteurs_(ListeActeurs()){}
@@ -168,20 +168,8 @@ struct Acteur
 class FilmLivre : public Film, public Livre
 {
 public:
-	FilmLivre(const Film& film, const Livre& livre) 
-	{
-		// On utilise le titre et l'année du film.
-		titre_ = film.lireTitre();
-		anneeSortie_ = film.lireAnneSortie();
-
-		realisateur_ = film.lireRealisateur();
-		recette_ = film.lireRecette();
-		acteurs_ = ListeActeurs(film.obtenirActeurs());
-
-		auteur_ = livre.lireAuteur();
-		nCopiesVendues_ = livre.lireNCopiesVendues();
-		nPages_ = livre.lireNPages();
-	}
+	// Constructeur à partir d'un Film et d'un Livre. Le titre et l'année utilisés sont ceux du Film.
+	FilmLivre(const Film& film, const Livre& livre) : Item(film), Film(film), Livre(livre) {}
 
 	// Affichage :
 	ostream& afficher(ostream& o) const;

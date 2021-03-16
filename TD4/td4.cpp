@@ -2,7 +2,7 @@
 * Fichier contenant l'implémentation des fonctions pour manipuler une collection de films, ainsi qu'un programme qui teste ces fonctions sur un exemple lu depuis un fichier.
 * \file   td4.cpp
 * \author Maya Kurdi-Teylouni et Julien Métais
-* \date   9 mars 2021
+* \date   16 mars 2021
 * Créé le 9 mars 2021
 */
 
@@ -205,17 +205,14 @@ void lireLivres(vector<shared_ptr<Item>>& listeItems, const string& nomFichier)
 
 	string titre, auteur = "";
 	int anneeSortie, nCopiesVendues, nPages = 0;
-	while (!livres.eof())
+	while (!ws(livres).eof())
 	{
 		livres >> quoted(titre);
 		livres >> anneeSortie;
 		livres >> quoted(auteur);
 		livres >> nCopiesVendues;
 		livres >> nPages;
-		if (!livres.eof())
-		{
-			listeItems.push_back(make_shared<Livre>(Livre(titre, anneeSortie, auteur, nCopiesVendues, nPages)));
-		}
+		listeItems.push_back(make_shared<Livre>(Livre(titre, anneeSortie, auteur, nCopiesVendues, nPages)));
 	}
 }
 
