@@ -2,7 +2,7 @@
 * Fichier contenant la déclaration des structures pour manipuler une collection de films. Basé sur le solutionnaire du TD4.
 * \file   structures.hpp
 * \author Maya Kurdi-Teylouni et Julien Métais
-* \date   23 mars 2021
+* \date   31 mars 2021
 * Créé le 23 mars 2021
 */
 #pragma once
@@ -72,8 +72,9 @@ public:
 	shared_ptr<T>& operator[] (int index) { return elements[index]; }
 	span<shared_ptr<T>> enSpan() const { return span(elements.get(), nElements); }
 
-	shared_ptr<T>* begin() { return &(elements.get()[0]); }
-	shared_ptr<T>* end() { return &(elements.get()[nElements]); }
+	// Pour pouvoir itérer directement sur une liste :
+	shared_ptr<T>* begin() { return &(elements[0]); } // Renvoie l'adresse du premier élément.
+	shared_ptr<T>* end() { return &(elements[nElements]); } // Renvoie l'adresse du dernier élément.
 
 private:
 	int capacite = 0, nElements = 0;

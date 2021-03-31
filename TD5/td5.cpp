@@ -2,7 +2,7 @@
 * Fichier contenant l'implémentation des fonctions pour manipuler une collection de films, ainsi qu'un programme qui teste ces fonctions sur un exemple lu depuis un fichier. Basé sur le solutionnaire du TD4.
 * \file   td5.cpp
 * \author Maya Kurdi-Teylouni et Julien Métais
-* \date   23 mars 2021
+* \date   31 mars 2021
 * Créé le 23 mars 2021
 */
 
@@ -23,6 +23,10 @@
 #include "gsl/span"
 
 #include <forward_list>
+#include <set>
+#include <unordered_map>
+#include <typeinfo>
+#include <numeric>
 
 #if __has_include("gtest/gtest.h")
 #include "gtest/gtest.h"
@@ -372,7 +376,7 @@ int main(int argc, char* argv[])
 
 
 
-
+	cout << "\nQuestion 1.1\n" << endl;
 
 	// Copie des éléments de la bibliothèque vers une forward_list, dans l'ordre original, en O(n).
 	forward_list<Item*> listeItems;
@@ -386,6 +390,9 @@ int main(int argc, char* argv[])
 
 	afficherListeItems(listeItems);
 
+
+	cout << "\nQuestion 1.2\n" << endl;
+
 	// Copie des éléments de la forward_list originale vers une autre forward_list, en ordre inverse, en O(n).
 	forward_list<Item*> listeItemsInversee;
 	for (auto&& item : listeItems) // n itérations.
@@ -395,6 +402,9 @@ int main(int argc, char* argv[])
 	}
 
 	afficherListeItems(listeItemsInversee);
+
+
+	cout << "\nQuestion 1.3\n" << endl;
 
 	// Copie des éléments de la forward_list originale vers une autre forward_list, dans l'ordre original, en O(n).
 	forward_list<Item*> listeItemsCopie;
@@ -408,19 +418,72 @@ int main(int argc, char* argv[])
 
 	afficherListeItems(listeItemsCopie);
 
+
+	cout << "\nQuestion 1.4\n" << endl;
+
 	// Copie des éléments de la forward_list originale vers un vector, en ordre inverse, en O(n²).
-	vector<Item*> vecteurItems;
+	vector<Item*> vecteurItemsInverse;
 	for (auto&& item : listeItems) // n itérations.
 	{
 		// Insertion en O(k) où k est le nombre d'éléments déjà insérés, donc en moyenne O(n/2), ce qui équivaut à O(n).
-		vecteurItems.insert(vecteurItems.begin(), item);
+		vecteurItemsInverse.insert(vecteurItemsInverse.begin(), item);
 	}
 
-	afficherListeItems(vecteurItems);
+	afficherListeItems(vecteurItemsInverse);
 
 
-	for (auto&& acteur : dynamic_cast<Film*>(vecteurItems[0])->acteurs)
+	cout << "\nQuestion 1.5\n" << endl;
+
+	// Affichage des acteurs du film Alien en itérant directement sur la ListeActeurs.
+	for (auto&& acteur : dynamic_cast<Film*>(items[0].get())->acteurs)
 	{
 		cout << *acteur << endl;
 	}
+
+
+	cout << "\nQuestion 2.1\n" << endl;
+
+	// Structure pour comparer des items selon l'ordre alphabétique des titres.
+	struct OrdreAlphabetique {
+		bool operator() (const Item* a, const Item* b) const
+		{
+			return a->titre < b->titre;
+		}
+	};
+
+	// On utilise un ensemble ordonné, qui trie les éléments selon un opérateur de comparasion personnalisé.
+	set<Item*, OrdreAlphabetique> ensembleItems = {};
+	for (auto&& item : items)
+	{
+		ensembleItems.insert(item.get());
+	}
+
+	afficherListeItems(ensembleItems);
+
+
+	cout << "\nQuestion 2.2\n" << endl;
+
+	// On utilise une map où les clés des items sont leurs titres.
+	unordered_map<string, Item*> mapItems = {};
+	for (auto&& item : items)
+	{
+		mapItems.insert({ item->titre, item.get() });
+	}
+
+	// Une fois tous les items insérés, on peut accéder à n'importe lequel en O(1), via son titre.
+	cout << *mapItems["The Hobbit"] << endl;
+
+
+	cout << "\nQuestion 3.1\n" << endl;
+
+	vector<Item*> copieFilms;
+	// On insère dans copieFilms tous les éléments de listeItems qui sont des Films.
+	copy_if(listeItems.begin(), listeItems.end(), back_inserter(copieFilms), [](Item* a) { return dynamic_cast<Film*>(a) != nullptr; });
+
+	afficherListeItems(copieFilms);
+
+
+	cout << "\nQuestion 3.2\n" << endl;
+
+	cout << "Recette totale : " << std::accumulate(begin(copieFilms), end(copieFilms), 0, [](int i, Item* a) { return dynamic_cast<Film*>(a)->recette + i; }) << "M$" << endl;
 }
