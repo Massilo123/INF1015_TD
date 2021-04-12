@@ -1,6 +1,6 @@
 /**
 * Classe principale du modèle pour le projet de jeu d'échecs.
-* \file   Partie.cpp
+* \file   Partie.h
 * \author Maya Kurdi-Teylouni et Julien Métais
 * \date   7 avril 2021
 * Créé le 7 avril 2021
@@ -10,9 +10,10 @@
 
 #include <unordered_map>
 #include <memory>
-#include <iostream>
 
 #include "Roi.h"
+#include "Tour.h"
+#include "Cavalier.h"
 
 // Classe représentant l'état de la partie.
 class Partie {

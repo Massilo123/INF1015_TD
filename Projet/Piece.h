@@ -1,6 +1,6 @@
 /**
 * Déclaration de la classe Pièce du modèle pour le projet de jeu d'échecs.
-* \file   Partie.cpp
+* \file   Piece.h
 * \author Maya Kurdi-Teylouni et Julien Métais
 * \date   7 avril 2021
 * Créé le 7 avril 2021

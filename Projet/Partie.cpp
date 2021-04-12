@@ -6,8 +6,6 @@
 * Créé le 7 avril 2021
 */
 
-#include <cppitertools/range.hpp>
-
 #include "Partie.h"
 
 using iter::range;
@@ -42,7 +40,7 @@ bool Partie::estUnMouvementValide(const Position& depart, const Position& arrive
 		}
 
 		// Si la case de destination est occupée par une pièce du même camp, le mouvement est invalide.
-		if (echiquier_.find(arrivee) != echiquier_.end() && echiquier_[arrivee]->estBlanc() == echiquier_[arrivee]->estBlanc())
+		if (echiquier_.find(arrivee) != echiquier_.end() && echiquier_[depart]->estBlanc() == echiquier_[arrivee]->estBlanc())
 		{
 			estUnMouvementValide = false;
 		}

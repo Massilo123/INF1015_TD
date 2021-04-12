@@ -1,6 +1,6 @@
 /**
 * Déclaration de la strcture de Position du modèle pour le projet de jeu d'échecs.
-* \file   Partie.cpp
+* \file   Position.h
 * \author Maya Kurdi-Teylouni et Julien Métais
 * \date   7 avril 2021
 * Créé le 7 avril 2021
@@ -8,7 +8,9 @@
 
 #pragma once
 
+#include <iostream>
 #include <utility>
+#include <cppitertools/range.hpp>
 
 // Structure pour représenter la position d'une pièce sur l'échiquier.
 struct Position {

@@ -115,21 +115,25 @@
     <ClCompile Include="bibliotheque_cours\verification_allocation.cpp" />
     <ClCompile Include="Calc.cpp" />
     <ClCompile Include="CalcWindow.cpp" />
+    <ClCompile Include="Cavalier.cpp" />
     <ClCompile Include="googletest\src\gtest-all.cc" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Partie.cpp" />
     <ClCompile Include="Roi.cpp" />
     <ClCompile Include="TestCalc.cpp" />
+    <ClCompile Include="Tour.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Calc.hpp" />
     <QtMoc Include="CalcWindow.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Cavalier.h" />
     <ClInclude Include="Partie.h" />
     <ClInclude Include="Piece.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="Roi.h" />
+    <ClInclude Include="Tour.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
