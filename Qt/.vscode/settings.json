@@ -1,0 +1,14 @@
+{
+    "cmake.debugConfig": {
+        "args": [
+        ],
+        "cwd":"${workspaceRoot}"  // Si le terminal dans VSCode roule déjà, il faut le fermer pour que la nouvelle valeur de cette option ait un effet (chaque terminal doit être fermé; "Launch the selected target" et "Launch the debugger [...]" sont des fenêtres de terminal différentes).
+    },
+    "gcovViewer.highlightMissedLines": true,
+    "files.associations": {
+        "iostream": "cpp",
+        "iomanip": "cpp"
+    },
+    // "C_Cpp.loggingLevel": "Debug",
+    "cmake.loggingLevel": "debug",
+}
