@@ -10,16 +10,21 @@
 
 using iter::range;
 
-bool Cavalier::estUneDestinationValide(const Position& arrivee) const
+namespace modele
 {
-	// Le cavalier peut se déplacer en L :
-	return (abs(position_.i - arrivee.i) == 2 && abs(position_.j - arrivee.j) == 1) || (abs(position_.i - arrivee.i) == 1 && abs(position_.j - arrivee.j) == 2);
-}
 
-std::unordered_set<Position, PositionHasher> Cavalier::obtenirChemin(const Position& arrivee) const
-{
-	// Le cavalier ne traverse aucune case pour arriver à sa destination.
+	bool Cavalier::estUneDestinationValide(const Position& arrivee) const
+	{
+		// Le cavalier peut se déplacer en L :
+		return (abs(position_.i - arrivee.i) == 2 && abs(position_.j - arrivee.j) == 1) || (abs(position_.i - arrivee.i) == 1 && abs(position_.j - arrivee.j) == 2);
+	}
 
-	//Remarque : le paramètre arrivee n'étant pas utilisé, un avertissement est généré.
-	return {};
+	std::unordered_set<Position, PositionHasher> Cavalier::obtenirChemin(const Position& arrivee) const
+	{
+		// Le cavalier ne traverse aucune case pour arriver à sa destination.
+
+		//Remarque : le paramètre arrivee n'étant pas utilisé, un avertissement est généré.
+		return {};
+	}
+
 }

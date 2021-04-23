@@ -17,33 +17,37 @@
 #include <QLabel>
 #pragma pop()
 
-class FenetreJeu : public QMainWindow {
-	Q_OBJECT
+namespace vue
+{
 
-public:
-	FenetreJeu(QWidget* parent = nullptr);
-	~FenetreJeu() override = default;
+	class FenetreJeu : public QMainWindow {
+		Q_OBJECT
 
-	// Utile pour tester des configurations de jeu.
-	void ajouterPiece(std::unique_ptr<Piece> piece);
+	public:
+		FenetreJeu(QWidget* parent = nullptr);
+		~FenetreJeu() override = default;
 
-public slots:
+		// Utile pour tester des configurations de jeu.
+		void ajouterPiece(std::unique_ptr<modele::Piece> piece);
 
-	void selectionnerCase(); // Rétroaction visuelle lorsque l'utilisateur clique sur une case.
-	void mettreAJourAffichage(); // Affiche l'ensemble des pièces à leurs positions sur l'échiquier.
-	void retroactionErreur(int i, int j); // Rétroaction visuelle lorsqu'un mouvement invalide est demandé.
+	public slots:
 
-private:
+		void selectionnerCase(); // Rétroaction visuelle lorsque l'utilisateur clique sur une case.
+		void mettreAJourAffichage(); // Affiche l'ensemble des pièces à leurs positions sur l'échiquier.
+		void retroactionErreur(int i, int j); // Rétroaction visuelle lorsqu'un mouvement invalide est demandé.
 
-	QPushButton* nouveauBouton(const QString& text);
+	private:
 
-	Partie partie_;  // Le Modèle (partie d'échecs).
+		QPushButton* nouveauBouton(const QString& text);
 
-	QPushButton* grille_[8][8]; // Les boutons constituant la vue (1 par case de l'échiquier).
-	
-	// Position de la case sélectionnée.
-	int i_;
-	int j_;
-};
+		modele::Partie partie_;  // Le Modèle (partie d'échecs).
 
+		QPushButton* grille_[8][8]; // Les boutons constituant la vue (1 par case de l'échiquier).
+
+		// Position de la case sélectionnée.
+		int i_;
+		int j_;
+	};
+
+}
 

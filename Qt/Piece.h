@@ -14,28 +14,33 @@
 
 #include "Position.h"
 
-// Classe virtuelle représentant une pièce du jeu d'échecs.
-class Piece {
-public :
-	Piece(int i, int j, bool estBlanc) : position_({ i, j }), estBlanc_(estBlanc) {}
-	Piece(const Position& position, bool estBlanc) : position_(position), estBlanc_(estBlanc) {}
+namespace modele
+{
 
-	virtual ~Piece() = default;
+	// Classe virtuelle représentant une pièce du jeu d'échecs.
+	class Piece {
+	public:
+		Piece(int i, int j, bool estBlanc) : position_({ i, j }), estBlanc_(estBlanc) {}
+		Piece(const Position& position, bool estBlanc) : position_(position), estBlanc_(estBlanc) {}
 
-	// Accesseurs :
-	Position lirePosition() const { return position_; }
-	void ecrirePosition(const Position& position) { position_ = position; }
-	virtual const std::string& lireNom() const = 0;
+		virtual ~Piece() = default;
 
-	bool estBlanc() const { return estBlanc_; }
+		// Accesseurs :
+		Position lirePosition() const { return position_; }
+		void ecrirePosition(const Position& position) { position_ = position; }
+		virtual const std::string& lireNom() const = 0;
 
-	// Indique si le déplacement de la pièce peut lui permettre de se rendre sur la position visée (sans tenir compte des autres pièces).
-	virtual bool estUneDestinationValide(const Position& arrivee) const = 0;
+		bool estBlanc() const { return estBlanc_; }
 
-	// Indique les positions que la pièce devrait traverser pour atteindre la destination (excluant les cases de départ et d'arrivée).
-	virtual std::unordered_set<Position, PositionHasher> obtenirChemin(const Position& arrivee) const = 0;
+		// Indique si le déplacement de la pièce peut lui permettre de se rendre sur la position visée (sans tenir compte des autres pièces).
+		virtual bool estUneDestinationValide(const Position& arrivee) const = 0;
 
-protected :
-	Position position_; // Position de la pièce sur l'échiquier.
-	bool estBlanc_; // Indique le camp auquel appartient la pièce.
-};
+		// Indique les positions que la pièce devrait traverser pour atteindre la destination (excluant les cases de départ et d'arrivée).
+		virtual std::unordered_set<Position, PositionHasher> obtenirChemin(const Position& arrivee) const = 0;
+
+	protected:
+		Position position_; // Position de la pièce sur l'échiquier.
+		bool estBlanc_; // Indique le camp auquel appartient la pièce.
+	};
+
+}

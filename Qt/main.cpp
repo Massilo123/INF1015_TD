@@ -48,7 +48,7 @@ int main(int argc, char* argv[])
 	
 
 	// Série de tests préliminaires pour vérifier qu’on peut bien bouger les pièces seulement pour des mouvements valides
-
+	/*
 	//Début de la partie
 	Partie partie;
 	partie.afficher();
@@ -111,17 +111,25 @@ int main(int argc, char* argv[])
 	// Déplacement du cavalier blanc de D6 vers B5
 	partie.deplacerPiece({ 5, 3 }, { 4, 1 });
 	partie.afficher();
-	
-	FenetreJeu fenetre;
-	fenetre.ajouterPiece(std::make_unique<Roi>(4, 2, true));
-	fenetre.ajouterPiece(std::make_unique<Tour>(0, 3, false));
-	fenetre.ajouterPiece(std::make_unique<Cavalier>(3, 4, true));
-	fenetre.ajouterPiece(std::make_unique<Roi>(1, 6, false));
-	fenetre.ajouterPiece(std::make_unique<Tour>(4, 1, true));
-	fenetre.ajouterPiece(std::make_unique<Cavalier>(7, 0, false));
+	*/
+	vue::FenetreJeu fenetre;
+	fenetre.ajouterPiece(std::make_unique<modele::Roi>(4, 2, true));
+	fenetre.ajouterPiece(std::make_unique<modele::Tour>(0, 3, false));
+	fenetre.ajouterPiece(std::make_unique<modele::Cavalier>(3, 4, true));
+	fenetre.ajouterPiece(std::make_unique<modele::Roi>(1, 6, false));
+	fenetre.ajouterPiece(std::make_unique<modele::Tour>(4, 1, true));
+	fenetre.ajouterPiece(std::make_unique<modele::Cavalier>(7, 0, false));
+
+	try
+	{
+		fenetre.ajouterPiece(std::make_unique<modele::Roi>(2, 6, false));
+	}
+	catch(std::logic_error& e)
+	{
+		std::cout << e.what() << std::endl;
+	}
 
 	fenetre.show();
-	
 
 	return app.exec();
 }
